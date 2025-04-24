@@ -482,7 +482,7 @@ def makeMask(fkdata, slope, shape, rth=0.4, expl_cutoff=False):
 
         if cutoff < 1:
             cutoff = 1
-        maskshape_tmp = create_filter(name, Mask.shape[0] / 2, cutoff, arg)
+        maskshape_tmp = create_filter(name, Mask.shape[0] // 2, cutoff, arg)
         maskshape_lh = (
             np.tile(maskshape_tmp, Mask.shape[1])
             .reshape(Mask.shape[1], maskshape_tmp.size)
@@ -490,8 +490,8 @@ def makeMask(fkdata, slope, shape, rth=0.4, expl_cutoff=False):
         )
         maskshape_rh = np.flipud(maskshape_lh)
 
-        maskshape[: maskshape.shape[0] / 2, :] = maskshape_lh
-        maskshape[maskshape.shape[0] / 2 :, :] = maskshape_rh
+        maskshape[: maskshape.shape[0] // 2, :] = maskshape_lh
+        maskshape[maskshape.shape[0] // 2 :, :] = maskshape_rh
 
     for m in prange:
         if m == 0.0:
@@ -535,12 +535,12 @@ def makeMask(fkdata, slope, shape, rth=0.4, expl_cutoff=False):
         Wr[np.where(Wr > rth)] = 1.0
         Wr[np.where(Wr < rth)] = 0.0
 
-    Wlhs = np.roll(Wr[:, 0 : Wr.shape[1] / 2 - 1], shift=1, axis=0)
-    Wrhs = Wr[:, 1 : Wr.shape[1] / 2 + 1]
+    Wlhs = np.roll(Wr[:, 0 : Wr.shape[1] // 2 - 1], shift=1, axis=0)
+    Wrhs = Wr[:, 1 : Wr.shape[1] // 2 + 1]
     Wrhs = np.roll(np.flipud(np.fliplr(Wrhs)), shift=0, axis=0)
 
-    Wr[:, 0 : Wr.shape[1] / 2 - 1] = Wlhs
-    Wr[:, Wr.shape[1] / 2 :] = Wrhs
+    Wr[:, 0 : Wr.shape[1] // 2 - 1] = Wlhs
+    Wr[:, Wr.shape[1] // 2 :] = Wrhs
     return Wr
 
 
@@ -1276,7 +1276,7 @@ def plotfk(
                 np.log(
                     abs(
                         np.fft.fftshift(
-                            data[:, : data.shape[1] / 2].transpose(), axes=1
+                            data[:, : data.shape[1] // 2].transpose(), axes=1
                         )
                     )
                 )
@@ -1289,7 +1289,7 @@ def plotfk(
     else:
         im = ax.imshow(
             np.flipud(
-                abs(np.fft.fftshift(data[:, : data.shape[1] / 2].transpose(), axes=1))
+                abs(np.fft.fftshift(data[:, : data.shape[1] // 2].transpose(), axes=1))
             ),
             aspect="auto",
             extent=(-0.5, 0.5, 0, 0.5),
@@ -1637,7 +1637,7 @@ def slope_distribution(
 
     pmin = prange[0]
     pmax = prange[1]
-    N = abs(pmax - pmin) / pdelta + 1
+    N = abs(pmax - pmin) // pdelta + 1
     MD = np.zeros(N)
     srange = np.linspace(pmin, pmax, N)
 

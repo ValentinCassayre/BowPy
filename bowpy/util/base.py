@@ -531,15 +531,15 @@ def line_cut(array, shape):
     elif name in ["butterworth", "Butterworth", "taper", "Taper"] and isinstance(
         length, int
     ):
-        fil_lh = create_filter(name, array.shape[0] / 2, length, kwarg)
+        fil_lh = create_filter(name, array.shape[0] // 2, length, kwarg)
 
     elif name in ["taper", "Taper"] and isinstance(length, int):
-        fil_lh = create_filter(name, array.shape[0] / 2, length, kwarg)
+        fil_lh = create_filter(name, array.shape[0] // 2, length, kwarg)
 
     fil_rh = np.flipud(fil_lh)[::-1][0:][::-1]
     fil = np.zeros(2 * fil_lh.size)
-    fil[: fil.size / 2] = fil_lh
-    fil[fil.size / 2 :] = fil_rh
+    fil[: fil.size // 2] = fil_lh
+    fil[fil.size // 2 :] = fil_rh
 
     new_array = array.transpose() * fil
     new_array = new_array.transpose()
@@ -582,16 +582,16 @@ def line_set_zero(array, shape):
     elif name in ["butterworth", "Butterworth", "taper", "Taper"] and isinstance(
         length, int
     ):
-        fil_lh = create_filter(name, array.shape[0] / 2, length, kwarg)
+        fil_lh = create_filter(name, array.shape[0] // 2, length, kwarg)
 
     elif name in ["taper", "Taper"] and isinstance(length, int):
-        fil_lh = create_filter(name, array.shape[0] / 2, length, kwarg)
+        fil_lh = create_filter(name, array.shape[0] // 2, length, kwarg)
         # fil_lh = -1. * fil_lh + 1.
 
     fil_rh = np.flipud(fil_lh)[::-1][1:][::-1]
     fil = np.zeros(2 * fil_lh.size)
-    fil[: fil.size / 2] = fil_lh
-    fil[fil.size / 2 + 1 :] = fil_rh
+    fil[: fil.size // 2] = fil_lh
+    fil[fil.size // 2 + 1 :] = fil_rh
     newfil = np.ones(fil.shape)
     newfil = newfil - fil
 
