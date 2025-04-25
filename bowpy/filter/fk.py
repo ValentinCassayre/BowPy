@@ -299,7 +299,6 @@ def fk_filter(
             slopes,
             deltaslope,
             peakpick=None,
-            mindist=dist,
             smoothing=smoothpicks,
             interactive=slopepicking,
         )
@@ -908,7 +907,7 @@ def _fk_extract_polygon(
     """
     # Shift 0|0 f-k to center, for easier handling
     dsfk = np.fft.fftshift(data.conj().transpose())
-    dsfk_tmp = dsfk[0 : dsfk.shape[0] / 2]
+    dsfk_tmp = dsfk[0 : dsfk.shape[0] // 2]
 
     # Define polygon by user-input.
     # If eval_mean is true, select area where to calculate the mean value
@@ -930,10 +929,10 @@ def _fk_extract_polygon(
     data_fk = np.zeros(dsfk.shape).astype("complex")
 
     # top half of domain.
-    data_fk[0 : dsfk.shape[0] / 2] = dsfk_tmp
+    data_fk[0 : dsfk.shape[0] // 2] = dsfk_tmp
 
     # Bottom half of domain, exploiting symmetry and shift properties.
-    data_fk[dsfk.shape[0] / 2 :] = np.roll(
+    data_fk[dsfk.shape[0] // 2 :] = np.roll(
         np.roll(np.flipud(np.fliplr(dsfk_tmp)), 1).transpose(), 1
     ).transpose()
 
@@ -960,7 +959,7 @@ def _fk_eliminate_polygon(
     """
     # Shift 0|0 f-k to center, for easier handling
     dsfk = np.fft.fftshift(data.conj().transpose())
-    dsfk_tmp = dsfk[0 : dsfk.shape[0] / 2]
+    dsfk_tmp = dsfk[0 : dsfk.shape[0] // 2]
 
     # Define polygon by user-input.
     # If eval_mean is true, select area where to calculate the mean value
@@ -982,10 +981,10 @@ def _fk_eliminate_polygon(
     data_fk = np.zeros(dsfk.shape).astype("complex")
 
     # top half of domain.
-    data_fk[0 : dsfk.shape[0] / 2] = dsfk_tmp
+    data_fk[0 : dsfk.shape[0] // 2] = dsfk_tmp
 
     # Bottom half of domain, exploiting symmetry and shift properties.
-    data_fk[dsfk.shape[0] / 2 :] = np.roll(
+    data_fk[dsfk.shape[0] // 2 :] = np.roll(
         np.roll(np.flipud(np.fliplr(dsfk_tmp)), 1).transpose(), 1
     ).transpose()
 
@@ -1023,7 +1022,7 @@ def _fk_ls_filter_eliminate_phase_sp(ArrayData, y_dist=False, radius=None, maxk=
     type snes:  int
     """
     # Define freq Array
-    freq = np.zeros((len(ArrayData), len(ArrayData[0]) / 2 + 1)) + 1j
+    freq = np.zeros((len(ArrayData), len(ArrayData[0]) // 2 + 1)) + 1j
 
     for i in range(len(ArrayData)):
         freq_new = np.fft.rfftn(ArrayData[i])
@@ -1031,7 +1030,7 @@ def _fk_ls_filter_eliminate_phase_sp(ArrayData, y_dist=False, radius=None, maxk=
 
     # Define k Array
     freqT = freq.conj().transpose()
-    knum = np.zeros((len(freqT), len(freqT[0]) / 2 + 1))
+    knum = np.zeros((len(freqT), len(freqT[0]) // 2 + 1))
 
     # calc best range
     N = len(freqT[0])

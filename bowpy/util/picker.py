@@ -230,7 +230,7 @@ def get_polygon(
         else:
             xs.append(xmin)
 
-    ys = np.linspace(ymin, ymax, no_of_vert / 2)
+    ys = np.linspace(ymin, ymax, no_of_vert // 2)
     ys = np.append(ys, ys[::-1]).tolist()
 
     poly = Polygon(list(zip(xs, ys)), animated=True, closed=False, fill=False)

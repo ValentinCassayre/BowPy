@@ -468,9 +468,9 @@ def makeMask(fkdata, slope, shape, rth=0.4, expl_cutoff=False):
     pnorm = 1 / 2.0 * (float(M.shape[0] + 1) / float(2.0 * M.shape[1]))
 
     prange = slope * pnorm
-    Mask = np.zeros((M.shape[0], 2.0 * M.shape[1]))
-    maskshape = np.zeros((M.shape[0], 2.0 * M.shape[1]))
-    W = np.zeros((M.shape[0], 2.0 * M.shape[1]))
+    Mask = np.zeros((M.shape[0], 2 * M.shape[1]))
+    maskshape = np.zeros((M.shape[0], 2 * M.shape[1]))
+    W = np.zeros((M.shape[0], 2 * M.shape[1]))
     name = shape[0]
     arg = shape[1]
 
@@ -511,7 +511,7 @@ def makeMask(fkdata, slope, shape, rth=0.4, expl_cutoff=False):
             Mask[:, f] = np.roll(Mask[:, f], int(f * m))
 
         W += Mask
-        Mask = np.zeros((M.shape[0], 2.0 * M.shape[1]))
+        Mask = np.zeros((M.shape[0], 2 * M.shape[1]))
 
     # Convolving each frequency slice of the mask with a boxcar
     # of size L. Widens the the maskfunction along k-axis.
@@ -1637,7 +1637,7 @@ def slope_distribution(
 
     pmin = prange[0]
     pmax = prange[1]
-    N = abs(pmax - pmin) // pdelta + 1
+    N = int(abs(pmax - pmin) / pdelta + 1)
     MD = np.zeros(N)
     srange = np.linspace(pmin, pmax, N)
 
